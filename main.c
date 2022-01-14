@@ -30,10 +30,25 @@ int main(int argc, char *argv[], char *envp[])
 	(void)argc;
 	char	*path;
 	char	*cmd;
+	int		pid;
 
 	cmd = argv[1];
 	path = pathfinder(argv, envp, cmd);
 	printf("Path: %s\n", path);
-	execve(path, &argv[1], envp);
-	return (0);
+	pid = fork();
+	if (pid == -1)
+		printf("fork() Error\n");
+	if (pid == 0)
+	{
+		// Child Process
+		execve(path, &argv[1], envp);
+	}
+	else
+	{
+		wait(NULL);
+		// Parent Process 
+		printf("\nSuccess\n");
+		return (0);
+
+	}
 }

@@ -8,6 +8,7 @@
 # include <errno.h>
 # include <string.h>
 # include <stdlib.h>
+# include <paths.h>
 
 //GNL 
 
@@ -24,5 +25,12 @@ int		mv_first_line(char *str, char **dest);
 char	*sup_first_line(char *str);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 
+// split
+
+char	**ft_split(char const *s, char c);
+static char	**ft_malloc_split(char const *s, char c, char **tab, int i);
+static char	**filling_good(char const *s, char **tab, char c);
+static int	nb_words(char const *s, char c);
+static char	**freedom(char **tab, int j);
 
 #endif
