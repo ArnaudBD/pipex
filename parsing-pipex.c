@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <paths.h>
 #include "includes/pipex.h"
-
 
 char **path_list(char *env[])
 {
@@ -18,9 +14,7 @@ char **path_list(char *env[])
 	while (env[i])
 	{
 		if (env[i][j] == path[j])
-		{
 			j++;
-		}
 		else if (j == 5)
 			break ;
 		else
@@ -31,21 +25,14 @@ char **path_list(char *env[])
 	}
 	path = &env[i][j];
 	tab_paths = ft_split(path, ':');
-
-	i = 0;
-	
 	return tab_paths;
-	
-	// ft_split(path)
 }
 
-int	main(int argc, char *argv[], char *env[])
+int	path_tester(char *path)
 {
-	int i = 0;
-	char **paths = path_list(env);
-	while (paths[i])	
-	{
-		printf("|==> %s <==|\n", paths[i]);
-		i++;
-	}
+	printf("Testing %s...\n", path);
+	if (access(path, X_OK) == -1)
+		return (-1);
+	printf("This test is a huge success!\n");
+	return (1);
 }

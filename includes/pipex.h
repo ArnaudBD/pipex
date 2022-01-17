@@ -10,6 +10,9 @@
 # include <stdlib.h>
 # include <paths.h>
 
+// UTILS
+int		ft_strlen(char const *str);
+
 //GNL 
 
 int		get_next_line(int fd, char **line);
@@ -18,19 +21,23 @@ int		n_search(char *str);
 void	ft_putnbr_fd(int nb, int fd);
 void	ft_putstr_fd(char *s, int fd);
 char	*ft_strjoin(char const *s1, char const *s2, int need2free);
-int		ft_strlen(char const *str);
 char	*first_line(char *str);
 char	*cut_first_line(char *str);
 int		mv_first_line(char *str, char **dest);
 char	*sup_first_line(char *str);
 void	*ft_memmove(void *dst, const void *src, size_t len);
 
-// split
+// SPLIT
 
 char	**ft_split(char const *s, char c);
-static char	**ft_malloc_split(char const *s, char c, char **tab, int i);
-static char	**filling_good(char const *s, char **tab, char c);
-static int	nb_words(char const *s, char c);
-static char	**freedom(char **tab, int j);
+char	**ft_malloc_split(char const *s, char c, char **tab, int i);
+char	**filling_good(char const *s, char **tab, char c);
+int	nb_words(char const *s, char c);
+char	**freedom(char **tab, int j);
+
+// PARSING
+char **path_list(char *env[]);
+int	path_tester(char *path);
+
 
 #endif

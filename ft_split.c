@@ -1,6 +1,6 @@
 #include "includes/pipex.h"
 
-char		**freedom(char **tab, int j)
+char	**freedom(char **tab, int j)
 {
 	while (j >= 0)
 	{
@@ -8,10 +8,10 @@ char		**freedom(char **tab, int j)
 		j--;
 	}
 	free(tab);
-	return (tab);
+	return (NULL);
 }
 
-int		nb_words(char const *s, char c)
+int	nb_words(char const *s, char c)
 {
 	int		i;
 	int		nb;
@@ -29,7 +29,7 @@ int		nb_words(char const *s, char c)
 	return (nb);
 }
 
-char		**filling_good(char const *s, char **tab, char c)
+char	**filling_good(char const *s, char **tab, char c)
 {
 	int		i;
 	int		j;
@@ -58,7 +58,7 @@ char		**filling_good(char const *s, char **tab, char c)
 	return (tab);
 }
 
-char		**ft_malloc_split(char const *s, char c, char **tab, int i)
+char	**ft_malloc_split(char const *s, char c, char **tab, int i)
 {
 	int		j;
 	int		first_letter;
@@ -76,7 +76,7 @@ char		**ft_malloc_split(char const *s, char c, char **tab, int i)
 			while (s[i] != 0 && s[i] != c)
 				i++;
 			tab[j] = malloc(sizeof(char) * (i - first_letter) + 1);
-			if (!tab[j])
+			if (!tab)
 			{
 				tab = freedom(tab, j);
 				return (NULL);
@@ -87,47 +87,31 @@ char		**ft_malloc_split(char const *s, char c, char **tab, int i)
 	return (tab);
 }
 
-char			**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char	**tab;
 	int		i;
-	// int		j;
+	int		j;
 
 	if (s == 0)
 		return (0);
 	i = 0;
-	// j = 0;
-	if (!(tab = malloc(sizeof(char*) * (nb_words(s, c) + 1))))
+	j = 0;
+	tab = malloc(sizeof(char *) * (nb_words(s, c) + 1));
+	if (!tab)
 		return (NULL);
 	tab = ft_malloc_split(s, c, tab, i);
 	if (tab == NULL)
 		return (tab);
 	else
 	{
-		// tab[nb_words(s, c)] = malloc(sizeof(char));
-		// if (!tab[nb_words(s, c)])
-		// {
-		// 	tab = freedom(tab, j);
-		// 	return (NULL);
-		// }
+		tab[nb_words(s, c)] = malloc(sizeof(char));
+		if (!tab)
+		{
+			tab = freedom(tab, j);
+			return (NULL);
+		}
 		tab = filling_good(s, tab, c);
 	}
 	return (tab);
 }
-
-// int main()
-// {
-// 	int i = 0;
-// 	char **tab;
-// 	char *str = "0 1fffff 2fe 3gh";
-// 	printf("str = '%s'\n", str);
-// 	tab = ft_split(str, ' ');
-// 	while (tab[i])
-// 	{
-// 		printf("tab[%d] = '%s'\n", i, tab[i]);
-// 		i++;
-// 	}
-// 	freedom(tab, i);
-// 	// free(tab);
-// 	return 0;
-// }
