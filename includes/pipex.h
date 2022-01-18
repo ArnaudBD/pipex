@@ -5,10 +5,12 @@
 # include <unistd.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <errno.h>
 # include <string.h>
 # include <stdlib.h>
 # include <paths.h>
+# include <fcntl.h>
 
 // UTILS
 int		ft_strlen(char const *str);
