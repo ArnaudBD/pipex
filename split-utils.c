@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split-utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abiju-du <abiju-du@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/19 20:51:51 by abiju-du          #+#    #+#             */
+/*   Updated: 2022/01/19 20:51:54 by abiju-du         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "includes/pipex.h"
 
-char		**freedom(char **tab, int j)
+char	**freedom(char **tab, int j)
 {
 	while (j >= 0)
 	{
@@ -11,7 +23,7 @@ char		**freedom(char **tab, int j)
 	return (tab);
 }
 
-int		nb_words(char const *s, char c)
+int	nb_words(char const *s, char c)
 {
 	int		i;
 	int		nb;
@@ -29,7 +41,7 @@ int		nb_words(char const *s, char c)
 	return (nb);
 }
 
-char		**filling_good(char const *s, char **tab, char c)
+char	**filling_good(char const *s, char **tab, char c)
 {
 	int		i;
 	int		j;
@@ -58,7 +70,7 @@ char		**filling_good(char const *s, char **tab, char c)
 	return (tab);
 }
 
-char		**ft_malloc_split(char const *s, char c, char **tab, int i)
+char	**ft_malloc_split(char const *s, char c, char **tab, int i)
 {
 	int		j;
 	int		first_letter;
@@ -87,47 +99,21 @@ char		**ft_malloc_split(char const *s, char c, char **tab, int i)
 	return (tab);
 }
 
-char			**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char	**tab;
 	int		i;
-	// int		j;
 
 	if (s == 0)
 		return (0);
 	i = 0;
-	// j = 0;
-	if (!(tab = malloc(sizeof(char*) * (nb_words(s, c) + 1))))
+	tab = malloc(sizeof(char *) * (nb_words(s, c) + 1));
+	if (!tab)
 		return (NULL);
 	tab = ft_malloc_split(s, c, tab, i);
 	if (tab == NULL)
 		return (tab);
 	else
-	{
-		// tab[nb_words(s, c)] = malloc(sizeof(char));
-		// if (!tab[nb_words(s, c)])
-		// {
-		// 	tab = freedom(tab, j);
-		// 	return (NULL);
-		// }
 		tab = filling_good(s, tab, c);
-	}
 	return (tab);
 }
-
-// int main()
-// {
-// 	int i = 0;
-// 	char **tab;
-// 	char *str = "0 1fffff 2fe 3gh";
-// 	printf("str = '%s'\n", str);
-// 	tab = ft_split(str, ' ');
-// 	while (tab[i])
-// 	{
-// 		printf("tab[%d] = '%s'\n", i, tab[i]);
-// 		i++;
-// 	}
-// 	freedom(tab, i);
-// 	// free(tab);
-// 	return 0;
-// }
