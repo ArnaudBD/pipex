@@ -13,7 +13,7 @@ OBJS =	$(SRCS:.c=.o)
 
 CC =	gcc
 
-CFLAGS = -g -Wall -Werror -Wextra #-fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 
 RM = 	rm -f
 
@@ -36,6 +36,7 @@ fclean : clean
 		$(RM) $(NAME)
 
 re : fclean all
+
 
 .PHONY :
 		all clean fclean re

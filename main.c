@@ -1,114 +1,39 @@
 #include "includes/pipex.h"
 
-char	*pathfinder(char *envp[], char *cmd)
-{
-	char	**paths;
-	char	*tmp;
-	char	*res;
-	int		i;
-
-	i = 0;
-	paths = path_list(envp);
-	while (cmd && cmd[i])
-	{
-		if (cmd[i] == ' ')
-		{
-			cmd[i] = 0;
-			break ;
-		}
-		i++;
-	}
-	i = 0;
-	while (paths[i])
-	{
-		tmp = ft_strjoin(paths[i], "/", 0);
-		res = ft_strjoin(tmp, cmd, 0);
-		free(tmp);
-		if (path_tester(res) == 1)
-			break ;
-		free(res);
-		i++;
-	}
-	i = 0;
-	while (paths[i])
-		free(paths[i++]);
-	free(paths);
-	printf("path found by pathfinder is '%s'\n", res);
-	return (res);
-}
-
 int main(int argc, char *argv[], char *envp[])
 {
 	char	*path;
 	char	**cmd;
 	int		pid[2];
 	int		i;
-	int		pipefd[2];
-	int		fd;
-(void)argc;
-	// if (argc != 5)
-	// {
-	// 	printf("You have to use the following mode: 'file1 cmd1 cmd2 file2'\n");
-	// 	exit (EXIT_FAILURE);
-	// }
-	cmd = ft_split(argv[2], ' ');
-	path = pathfinder(envp, cmd[0]);
-	i = 0;
-	while (cmd[i])
-		i++;
-	printf("cmd: %s\n", *cmd);
-	printf("Path: %s\n", path);
-	if (pipe(pipefd) == -1)
-		exit (EXIT_FAILURE);
+	int		fd[3];
+
+	if (argc != 5)
+	{
+		printf("You have to follow this patern: 'file1 \"cmd1\" \"cmd2\" file2'\n");
+		return (EXIT_FAILURE);
+	}
+	if (pipe(fd) == -1)
+		return (EXIT_FAILURE);
+	i = cmd_interpreter(&cmd, &path, argv[2], envp);
 	pid[0] = fork();
 	if (pid[0] == -1)
-		printf("fork() Error\n");
+		return (EXIT_FAILURE);
 	if (pid[0] == 0)
-	{
-		printf("Child 1 process just started\n");
-		// Child1 Process (cmd1)
-		fd = open(argv[1], O_RDONLY);
-		dup2(fd, 0);
-		dup2(pipefd[1], 1);
-		close(pipefd[0]);
-		execve(path, cmd, envp);
-		close(fd);
-		close(pipefd[1]);
-		freedom(cmd, i);
-		free(path);
-	}
-	wait(NULL);
-	printf("\nChild 1 is a success\n");
+		ft_child1(fd, path, cmd, envp, i, argv);
 	freedom(cmd, i);
 	free(path);
-	cmd = ft_split(argv[3], ' ');
-	path = pathfinder(envp, cmd[0]);
-	while (cmd[i])
-		i++;
+	i = cmd_interpreter(&cmd, &path, argv[3], envp);
 	pid[1] = fork();
 	if (pid[1] == -1)
-		printf("Error\n");
+		return (EXIT_FAILURE);
 	if (pid[1] == 0)
-	{
-		fd = open(argv[4], O_WRONLY);
-		printf("Child 2 process just started\n");
-		// Child2 Process (cmd2)
-		dup2(fd, 1);
-		dup2(pipefd[0], STDIN_FILENO);
-		close(pipefd[1]);
-		execve(path, cmd, envp);
-		close(pipefd[0]);
-		freedom(cmd, i);
-		free(path);
-		close(pipefd[0]);
-	}
-	// Parent Process
-	close(pipefd[0]);
-	close(pipefd[1]);
-	// waitpid(pid[0], NULL, 0);
-	waitpid(pid[1], NULL, 0);
+		ft_child2(fd, path, cmd, envp, i, argv);
+	close(fd[0]);
+	close(fd[1]);
+	wait(NULL);
+	wait(NULL);
 	freedom(cmd, i);
 	free(path);
-	printf("\nSuccess\n");
 	return (0);
 }

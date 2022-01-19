@@ -12,8 +12,14 @@
 # include <paths.h>
 # include <fcntl.h>
 
+
+
 // UTILS
 int		ft_strlen(char const *str);
+void ft_child1(int *fd, char *path, char **cmd, char *envp[], int i, char *argv[]);
+void ft_child2(int *fd, char *path, char **cmd, char *envp[], int i, char *argv[]);
+int cmd_interpreter(char ***cmd, char **path, char *argvx, char *envp[]);
+char	*pathfinder(char *envp[], char *cmd);
 
 //GNL 
 

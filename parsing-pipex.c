@@ -30,9 +30,7 @@ char **path_list(char *env[])
 
 int	path_tester(char *path)
 {
-	printf("Testing %s...\n", path);
 	if (access(path, X_OK) == -1)
 		return (-1);
-	printf("This test is a huge success!\n");
 	return (1);
 }
