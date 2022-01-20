@@ -28,6 +28,8 @@ void	ft_child1(t_list *param, char *envp[], char *argv[])
 {
 	param->i = cmd_interpreter(param, argv[2], envp);
 	param->fd[2] = open(argv[1], O_RDONLY);
+	if (param->fd[2] == -1)
+		exit (EXIT_FAILURE);
 	dup2(param->fd[2], 0);
 	dup2(param->fd[1], 1);
 	close(param->fd[0]);
@@ -44,6 +46,8 @@ void	ft_child2(t_list *param, char *envp[], char *argv[])
 {
 	param->i = cmd_interpreter(param, argv[3], envp);
 	param->fd[2] = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (param->fd[2] == -1)
+		exit (EXIT_FAILURE);
 	dup2(param->fd[2], 1);
 	dup2(param->fd[0], STDIN_FILENO);
 	close(param->fd[1]);

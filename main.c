@@ -26,7 +26,6 @@ int	main(int argc, char *argv[], char *envp[])
 		return (EXIT_FAILURE);
 	if (param->pid[0] == 0)
 		ft_child1(param, envp, argv);
-	free(param->path);
 	param->pid[1] = fork();
 	if (param->pid[1] == -1)
 		return (EXIT_FAILURE);
@@ -36,7 +35,6 @@ int	main(int argc, char *argv[], char *envp[])
 	close(param->fd[1]);
 	wait(NULL);
 	wait(NULL);
-	free(param->path);
 	free(param);
 	return (0);
 }
